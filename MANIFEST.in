@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include mini-system-monitor/static *
+recursive-include mini-system-monitor/templates *
