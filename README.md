@@ -42,3 +42,24 @@ pip install django-mini-system-monitor
 
 ## Settings Page
 ![Django Settings Variables](doc/settings.png)
+
+## Authors
+
+* **Dann Luciano** - *Initial work* - [@dannluciano](https://twitter.com/dannluciano)
+
+See also the list of [contributors](https://github.com/dannluciano/django-mini-system-monitor/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
+
+## Acknowledgments
+
+Inspired:
+
+* [django-sql-explorer](https://github.com/groveco/django-sql-explorer)
+* and by Corona Virus
+
+Thanks to [IFPI](https://www.ifpi.edu.br/) for pay my salary!
+
+![IFPI](doc/ifpi.png)
