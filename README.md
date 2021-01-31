@@ -1,6 +1,6 @@
 # Mini System Monitor
 
-## Django Admin Pages for System Status
+## System Status in Django Admin
 
 Only available for superusers.
 
