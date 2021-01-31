@@ -15,8 +15,6 @@ class Migration(migrations.Migration):
             name='Env',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(editable=False, max_length=255, verbose_name='name')),
-                ('value', models.CharField(editable=False, max_length=512, verbose_name='value')),
             ],
             options={
                 'verbose_name': 'Env',

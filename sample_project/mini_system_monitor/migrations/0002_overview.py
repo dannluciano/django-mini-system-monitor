@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mini-system-monitor', '0001_initial'),
+        ('mini_system_monitor', '0001_initial'),
     ]
 
     operations = [

@@ -1,13 +1,16 @@
 import os
 import psutil
 import datetime
+import platform
 
 from django.contrib import admin
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.urls import path
+from django.conf import settings
+import django
 
-from .models import Env, Overview
+from .models import Settings, Env, Overview
 
 
 class ViewOnlyAmin(admin.ModelAdmin):
@@ -24,6 +27,29 @@ class ViewOnlyAmin(admin.ModelAdmin):
         return False
 
 
+def get_all_settings():
+    dict_settings = settings.__dict__.copy()
+    
+    if '_wrapped' in dict_settings: del dict_settings['_wrapped']
+    if 'is_overridden' in dict_settings: del dict_settings['is_overridden']
+
+    from collections import OrderedDict
+    return OrderedDict(sorted(dict_settings.items()))
+
+
+@admin.register(Settings)
+class SettingsAdmin(ViewOnlyAmin):
+    view_on_site = False
+    change_list_template = 'admin/settings_change_list.html'
+
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(request, extra_context=extra_context)
+        if request.user.is_superuser:
+            response.context_data['settings'] = get_all_settings()
+        return response
+
+
+
 def get_all_envs():
     envs = dict(os.environ)
     envs = dict(sorted(envs.items(), key=lambda item: item[0]))
@@ -31,7 +57,6 @@ def get_all_envs():
 
 @admin.register(Env)
 class EnvAdmin(ViewOnlyAmin):
-    readonly_fields = ('name','value')
     view_on_site = False
     change_list_template = 'admin/env_change_list.html'
 
@@ -66,15 +91,33 @@ def get_overview():
     ]
 
 def get_static_overview():
+    uname = platform.uname()
     return [
+        {
+            'name': 'hostname', 
+            'value': platform.node()
+        },
+        {
+            'name': 'os_uname',
+            'value': f'{uname.system} - {uname.release}  - {uname.machine} - {uname.processor}'
+        },
+        {
+            'name': 'boot_time',
+            'value': datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")
+        },
         {
             'name': 'cpu_count',
             'value': psutil.cpu_count()
         },
         {
-            'name': 'boot_time',
-            'value': datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")
-        }
+            'name': 'python_version', 
+            'value': platform.python_version()
+        },
+        {
+            'name': 'django_version', 
+            'value': django.get_version()
+        },
+
     ]
 
 
@@ -105,5 +148,5 @@ class OverviewAdmin(ViewOnlyAmin):
     class Media:
         js = (
             'https://unpkg.com/gridjs',
-            'mini-system-monitor/js/index.js',
+            'mini_system_monitor/js/index.js',
         )
