@@ -57,7 +57,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 Inspired:
 
-* [django-sql-explorer](https://github.com/groveco/django-sql-explorer)
+* [django-system-monitor](https://github.com/hakanzy/django-system-monitor)
 * and by Corona Virus
 
 Thanks to [IFPI](https://www.ifpi.edu.br/) for pay my salary!
