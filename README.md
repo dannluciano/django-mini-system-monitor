@@ -1,13 +1,15 @@
 # Mini System Monitor
 
-Generate Django Admin Pages for System Status
+## Django Admin Pages for System Status
+
+Only available for superusers.
 
 -----------
 
 1. Install django_mini_system_monitor with pip:
 
 ```shell
-pip install django_mini_system_monitor
+pip install django-mini-system-monitor
 ```
 
 2. Add "mini_system_monitor" to your INSTALLED_APPS setting like this:
@@ -19,9 +21,13 @@ pip install django_mini_system_monitor
     ]
 ```
 
-2. Run ```python manage.py migrate``` to create the mini-system-monitor models.
+3. Run ```python manage.py migrate``` to create the models.
 
 4. Start the development server and visit http://127.0.0.1:8000/admin/ (you'll need the Admin app enabled).
+
+```shell
+    python manage.py runserver
+```
 
 # Screenshots
 
