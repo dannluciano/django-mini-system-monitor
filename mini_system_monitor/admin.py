@@ -28,6 +28,8 @@ class ViewOnlyAmin(admin.ModelAdmin):
 
 
 def get_all_settings():
+    if not settings.configured:
+        settings.configure()
     dict_settings = settings.__dict__.copy()
     
     if '_wrapped' in dict_settings: del dict_settings['_wrapped']
@@ -147,6 +149,7 @@ class OverviewAdmin(ViewOnlyAmin):
 
     class Media:
         js = (
-            'https://unpkg.com/gridjs',
+            'mini_system_monitor/js/gridjs.js',
             'mini_system_monitor/js/index.js',
         )
+        css = ('mini_system_monitor/css/mermaid.css',)
