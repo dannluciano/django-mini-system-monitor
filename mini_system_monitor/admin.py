@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.urls import path
 from django.conf import settings
+from django.template.defaultfilters import filesizeformat
 import django
 
 from .models import Settings, Env, Overview
@@ -93,7 +94,15 @@ def get_overview():
     ]
 
 def get_static_overview():
+    cpu_max = 0
+    try:
+        cpu_max = psutil.cpu_freq().max
+    except:
+        pass
+    cpu = f'{cpu_max} hz x {psutil.cpu_count()} cores'
     uname = platform.uname()
+    memory = psutil.virtual_memory()
+    root_disk = psutil.disk_usage('/')
     return [
         {
             'name': 'hostname', 
@@ -108,8 +117,16 @@ def get_static_overview():
             'value': datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")
         },
         {
-            'name': 'cpu_count',
-            'value': psutil.cpu_count()
+            'name': 'cpu',
+            'value': cpu
+        },
+        {
+            'name': 'memory_total',
+            'value': filesizeformat(memory.total)
+        },
+        {
+            'name': 'root_disk_total',
+            'value': filesizeformat(root_disk.total)
         },
         {
             'name': 'python_version', 
